@@ -18,15 +18,16 @@ app.use(body());
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 const db = mysql.createConnection({
-    host: "172.25.192.1",
+    host: "172.24.32.1",
     user: "mix",
     password: "1234",
     database: 'mix'
 });
+
 // show data
 app.get('/data', function(req,res){
     console.log("Hello in /data ");
-    let sql = 'SELECT * FROM users;';
+    let sql = 'SELECT * FROM `users`;';
     db.query(sql, (err, result)=>{
         if(err) throw err;
         console.log(result);
@@ -55,11 +56,23 @@ app.put('/data', function(req, res) {
 
 //insert
 app.post('/data', function(req, res){
+    var date;
+    date = new Date();
+    date = date.getFullYear() + '-' +
+    ('00' + (date.getMonth()+1)).slice(-2) + '-' +
+    ('00' + date.getDate()).slice(-2) + ' ' + 
+    ('00' + date.getHours()).slice(-2) + ':' + 
+    ('00' + date.getMinutes()).slice(-2) + ':' + 
+    ('00' + date.getSeconds()).slice(-2);
+    
     console.log(req.body);
     let data = {
+        email:req.body.email,
+        regisTime:date,
         id:req.body.idkey,
         firstname:req.body.firstname,
-        lastname:req.body.lastname
+        lastname:req.body.lastname,
+        
     };
     let sql = 'INSERT INTO users SET ?';
     db.query(sql, data, (err, result)=>{

@@ -21,9 +21,10 @@ export default class Register extends Component{
     handleClicked(){
         let url = `https://localhost:3000/data`;
         let data = {
+            email:JSON.parse(localStorage.getItem('user')).email,
             idkey:this.state.idkey,
             firstname:this.state.firstname,
-            lastname:this.state.lastname
+            lastname:this.state.lastname,
         }
         axios.post(url,data)
         this.setState({

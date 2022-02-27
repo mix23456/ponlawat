@@ -15,6 +15,7 @@ export default class Facebook extends Component {
     email: "",
     picture: ""
   };
+
   responseFacebook = response => {
     // console.log(response);
     localStorage.setItem('user', JSON.stringify(response))

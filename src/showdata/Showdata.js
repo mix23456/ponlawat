@@ -10,6 +10,7 @@ export default class Showdata extends Component{
         super();
         this.state ={
             list:[],
+            regisTime:"",
             idkey:"",
             firstname:"",
             lastname:""
@@ -54,6 +55,7 @@ export default class Showdata extends Component{
     call=(user)=>{
         this.openModal();
         this.setState({
+            regisTime:user.regisTime,
             idkey:user.id,
             firstname:user.firstname,
             lastname:user.lastname
@@ -65,6 +67,7 @@ export default class Showdata extends Component{
         });
         let url = `https://localhost:3000/data`;
         let data = {
+            regisTime:this.state.regisTime,
             idkey:this.state.idkey,
             firstname:this.state.firstname,
             lastname:this.state.lastname
@@ -75,12 +78,14 @@ export default class Showdata extends Component{
     handleClicked(){
         let url = `https://localhost:3000/data`;
         let data = {
+            regisTime:this.state.regisTime,
             idkey:this.state.idkey,
             firstname:this.state.firstname,
             lastname:this.state.lastname
         }
         axios.put(url,data)
         this.setState({
+            regisTime:"",
             idkey:"",
             firstname:"",
             lastname:""
@@ -99,6 +104,8 @@ export default class Showdata extends Component{
                     <table className="table table-dark">
                         <thead>
                             <tr>
+                            <th>Email</th>
+                            <th>Time Stamp</th>
                             <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
@@ -108,6 +115,8 @@ export default class Showdata extends Component{
                                 {list.map((user) =>{
                                     return(
                                         <tr>
+                                            <td>{user.email}</td>
+                                            <td>{user.regisTime}</td>
                                             <td>{user.id}</td>
                                             <td>{user.firstname}</td>
                                             <td>{user.lastname}</td>
@@ -121,6 +130,7 @@ export default class Showdata extends Component{
                                                        onClickAway={() => this.closeModal()}
                                                 >
                                                     <form className="container" id='form'>
+                                                        
                                                         <div className="form-group">
                                                             <h3><label htmlFor="id">ID: {this.state.idkey}<br/></label></h3>
                                                         </div>
@@ -129,7 +139,7 @@ export default class Showdata extends Component{
                                                             <input type="text" className="form-control" id="firstname" onChange={this.handleChang} value={this.state.firstname}/>
                                                         </div>
                                                         <div className="form-group">
-                                                            <label>lasttname:</label>
+                                                            <label>lastname:</label>
                                                             <input type="text" className="form-control" id="lastname" onChange={this.handleChang} value={this.state.lastname}/>
                                                         </div>
                                                         <button type="button" className="btn btn-primary" onClick={this.handleClicked}>Submit</button>
